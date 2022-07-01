@@ -1,0 +1,14 @@
+{
+  "name": "mmm-ff-genius-lyrics",
+  "version": "1.0.0",
+  "description": "show genius api lyrics for current spotify song",
+  "main": "MMM-FF-Genius-Lyrics.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "genius-lyrics-api": "^3.2.0"
+  }
+}

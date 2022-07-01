@@ -1,0 +1,82 @@
+/* Magic Mirror
+ * Module: MMM-FF-Genius-Lyrics
+ *
+ * By Michael Trenkler
+ * ISC Licensed.
+ */
+
+.MMM-FF-Genius-Lyrics {
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .error {
+    color: #f00;
+  }
+
+  .italic {
+    font-style: italic;
+  }
+
+  .module-content {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .loading {
+    display: flex;
+    font-weight: 300;
+    word-wrap: nowrap;
+    margin: 2rem;
+    justify-content: center;
+  }
+
+  .lyrics-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: scroll;
+    width: 100%;
+    height: 100%;
+  }
+
+  .lyrics {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+
+    &::after,
+    &::before {
+      content: "";
+      display: block;
+    }
+    &::before {
+      height: 6em;
+    }
+    &::after {
+      height: 12em;
+    }
+  }
+}
+
+.fullscreen {
+  .MMM-FF-Genius-Lyrics {
+    text-align: center;
+    .module-header {
+      margin: var(--gap-body-top) auto 0 auto;
+    }
+
+    & .lyrics-wrapper {
+      padding: var(--gap-body-top) var(--gap-body-right) var(--gap-body-bottom)
+        var(--gap-body-left);
+    }
+  }
+}
