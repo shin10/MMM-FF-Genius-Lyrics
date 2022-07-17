@@ -38,7 +38,6 @@ const LyricFetcher = function (nodeHelper, config) {
 
   const updateLyrics = (lyricsData) => {
     lyrics = lyricsData;
-    console.warn(lyrics);
     nodeHelper.sendSocketNotification("UPDATE_LYRICS", {
       config: prepareNotificationConfig()
     });
