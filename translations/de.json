@@ -1,4 +1,5 @@
 {
   "GENIUS_LYRICS_NOT_FOUND": "Kein Text gefunden.",
-  "SPOTIFY_NOT_PLAYING": "Es wird gerade kein Song abgespielt."
+  "SPOTIFY_CONNECTED": "Spotify verbunden.",
+  "SPOTIFY_DISCONNECTED": "Spotify getrennt."
 }

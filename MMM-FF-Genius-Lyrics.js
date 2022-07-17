@@ -13,7 +13,10 @@ Module.register("MMM-FF-Genius-Lyrics", {
     lyricsClasses: ["medium", "thin"],
     apiKey: null,
     events: {
-      SPOTIFY_UPDATE_SONG_INFO: "SPOTIFY_UPDATE_SONG_INFO"
+      sender: ["MMM-Spotify"],
+      SPOTIFY_UPDATE_SONG_INFO: "SPOTIFY_UPDATE_SONG_INFO",
+      SPOTIFY_CONNECTED: "SPOTIFY_CONNECTED",
+      SPOTIFY_DISCONNECTED: "SPOTIFY_DISCONNECTED"
     }
   },
 
@@ -21,7 +24,6 @@ Module.register("MMM-FF-Genius-Lyrics", {
     this.error = null;
     this.title = null;
     this.artist = null;
-    this.status = null;
     this.lyrics = "";
     this.progress = 0;
     this._t = 0;
@@ -30,6 +32,9 @@ Module.register("MMM-FF-Genius-Lyrics", {
   start: function () {
     Log.info("Starting module: " + this.name);
     this.config.moduleId = this.identifier;
+
+    this.status = "SPOTIFY_DISCONNECTED";
+
     this.sendSocketNotification("", { config: this.config });
 
     let efh = (t) => {
@@ -178,6 +183,13 @@ Module.register("MMM-FF-Genius-Lyrics", {
               songInfo: payload
             });
           }
+          break;
+        case "SPOTIFY_CONNECTED":
+          this.status = "SPOTIFY_CONNECTED";
+          break;
+        case "SPOTIFY_DISCONNECTED":
+          this.status = "SPOTIFY_DISCONNECTED";
+          this.showLoader();
           break;
         default:
           break;
