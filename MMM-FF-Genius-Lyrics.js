@@ -21,6 +21,7 @@ Module.register("MMM-FF-Genius-Lyrics", {
     this.error = null;
     this.title = null;
     this.artist = null;
+    this.status = null;
     this.lyrics = "";
     this.progress = 0;
     this._t = 0;
@@ -96,28 +97,30 @@ Module.register("MMM-FF-Genius-Lyrics", {
       return wrapper;
     }
 
-    let loaded = this.lyrics !== "";
-    if (!loaded) {
+    if (this.status === "OK") {
+      var lyricsWrapper = document.createElement("div");
+      lyricsWrapper.classList.add("lyrics-wrapper");
+
+      var lyricsElement = document.createElement("div");
+      lyricsElement.classList.add("lyrics");
+      lyricsElement.classList.add(...this.config.lyricsClasses);
+      lyricsElement.innerText = this.lyrics;
+      lyricsWrapper.appendChild(lyricsElement);
+      wrapper.appendChild(lyricsWrapper);
+    } else {
       var loader = document.createElement("div");
-      loader.classList.add("lyrics-wrapper");
-      loader.innerHTML = this.translate("LOADING");
       loader.className = "loading light small dimmed";
+      loader.innerHTML = this.translate(this.status);
       wrapper.appendChild(loader);
-      return wrapper;
     }
-
-    var lyricsWrapper = document.createElement("div");
-    lyricsWrapper.classList.add("lyrics-wrapper");
-
-    var lyricsElement = document.createElement("div");
-    lyricsElement.classList.add("lyrics");
-    lyricsElement.classList.add(...this.config.lyricsClasses);
-    lyricsElement.innerText = this.lyrics;
-    lyricsWrapper.appendChild(lyricsElement);
-
-    wrapper.appendChild(lyricsWrapper);
-
     return wrapper;
+  },
+
+  getTranslations() {
+    return {
+      de: "translations/de.json",
+      en: "translations/en.json"
+    };
   },
 
   socketNotificationReceived: function (notification, payload) {
@@ -134,6 +137,7 @@ Module.register("MMM-FF-Genius-Lyrics", {
         this.lyrics = payload.config.lyrics;
         this.title = payload.config.title;
         this.artist = payload.config.artist;
+        this.status = payload.config.status;
         this.updateDom(this.config.animationSpeed);
         break;
       default:

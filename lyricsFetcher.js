@@ -16,6 +16,7 @@ const LyricFetcher = function (nodeHelper, config) {
   var lyrics = null;
   var artist = null;
   var title = null;
+  var status = null;
 
   var hidden;
 
@@ -31,11 +32,13 @@ const LyricFetcher = function (nodeHelper, config) {
     const copy = Object.assign({ lyrics: lyrics }, config);
     copy.artist = artist;
     copy.title = title;
+    copy.status = status;
     return copy;
   };
 
   const updateLyrics = (lyricsData) => {
     lyrics = lyricsData;
+    console.warn(lyrics);
     nodeHelper.sendSocketNotification("UPDATE_LYRICS", {
       config: prepareNotificationConfig()
     });
@@ -48,7 +51,7 @@ const LyricFetcher = function (nodeHelper, config) {
     let _title = songInfo.name;
     let _artist = songInfo.artists[0].name;
 
-    if (title === _title && artist === _artist && lyrics) {
+    if (title === _title && artist === _artist) {
       return updateLyrics(lyrics);
     }
 
@@ -62,7 +65,9 @@ const LyricFetcher = function (nodeHelper, config) {
       optimizeQuery: true
     };
 
+    status = "LOADING";
     geniusLyrics.getLyrics(options).then((lyrics) => {
+      status = lyrics ? "OK" : "GENIUS_LYRICS_NOT_FOUND";
       updateLyrics(lyrics);
     });
   };
