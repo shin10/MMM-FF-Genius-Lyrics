@@ -13,7 +13,7 @@ This module complements the [MMM-Spotify module](https://github.com/skuethe/MMM-
 Just navigate to the `modules` directory of your MagicMirror² installation and clone this repository.
 
 ```sh
-git clone https://github.com/shin10/ MMM-FF-Genius-Lyrics.git
+git clone https://github.com/shin10/MMM-FF-Genius-Lyrics.git
 cd MMM-FF-Genius-Lyrics && npm i
 ```
 
