@@ -61,7 +61,8 @@ const LyricFetcher = function (nodeHelper, config) {
       apiKey: config.apiKey,
       title: songInfo.name,
       artist: songInfo.artists[0].name,
-      optimizeQuery: true
+      optimizeQuery: true,
+      text_format: "html"
     };
 
     status = "LOADING";
