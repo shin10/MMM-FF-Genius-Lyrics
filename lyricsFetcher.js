@@ -12,6 +12,7 @@ const LyricFetcher = function (nodeHelper, config) {
 
   // public for filtering
   this.moduleId = moduleId;
+  this.error = null;
 
   var lyrics = null;
   var artist = null;
@@ -54,6 +55,7 @@ const LyricFetcher = function (nodeHelper, config) {
       return updateLyrics(lyrics);
     }
 
+    this.error = null;
     title = _title;
     artist = _artist;
 
@@ -66,10 +68,27 @@ const LyricFetcher = function (nodeHelper, config) {
     };
 
     status = "LOADING";
-    geniusLyrics.getLyrics(options).then((lyrics) => {
-      status = lyrics ? "OK" : "GENIUS_LYRICS_NOT_FOUND";
-      updateLyrics(lyrics);
-    });
+    geniusLyrics
+      .getLyrics(options)
+      .then((lyrics) => {
+        status = lyrics ? "OK" : "GENIUS_LYRICS_NOT_FOUND";
+        updateLyrics(lyrics);
+      })
+      .catch((err) => {
+        this.error = {
+          status: err.response.status,
+          statusText: err.response.statusText,
+          data: err.response.data,
+          config: err.config
+        };
+
+        status = err.response.status;
+
+        nodeHelper.sendSocketNotification("ERROR", {
+          config: prepareNotificationConfig(),
+          error: this.error
+        });
+      });
   };
 };
 
