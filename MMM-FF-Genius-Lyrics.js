@@ -97,8 +97,21 @@ Module.register("MMM-FF-Genius-Lyrics", {
     var wrapper = document.createElement("div");
 
     if (this.error) {
-      wrapper.innerHTML = "ERROR<br>" + JSON.stringify(this.error);
-      wrapper.className = "light small error";
+      wrapper.innerHTML = `
+      <div>
+        <div class="header large bright thin">
+          Status: ${this.error.status} - ${this.error.statusText}
+        </div>
+        <br>
+        <div class="err xsmall dimmed">
+          Error: ${this.error.data.error}<br>
+          ${this.error.data.error_description}
+        </div>
+        <br>
+        <div class="err xsmall dimmed">
+          URL: ${this.error.config.url}
+        </div>
+      </div>`;
       return wrapper;
     }
 
@@ -134,7 +147,7 @@ Module.register("MMM-FF-Genius-Lyrics", {
 
     switch (notification) {
       case "ERROR":
-        this.error = payload;
+        this.error = payload.error;
         this.updateDom(this.config.animationSpeed);
         break;
       case "UPDATE_LYRICS":
